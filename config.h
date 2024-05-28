@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #define RGBLIGHT_EFFECT_BREATHING	
 
     //#define RGBLIGHT_EFFECT_RGB_TEST  //solid color toggle all together
-    #define RGBLIGHT_EFFECT_SNAKE  //snake going trhough all the keys
+    //zd#define RGBLIGHT_EFFECT_SNAKE  //snake going trhough all the keys
    
     //#define RGBLIGHT_EFFECT_STATIC_GRADIENT  //solid gradiant rainbow
     //#define RGBLIGHT_EFFECT_TWINKLE   //twinkle

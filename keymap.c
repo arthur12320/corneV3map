@@ -25,7 +25,8 @@ enum layers {
     _BASE,
     _MOVE,
     _SPECIAL,
-    _CONFIG
+    _CONFIG,
+    _UNT
 };
 
 // Tap Dance declarations
@@ -44,54 +45,101 @@ tap_dance_action_t tap_dance_actions[] = {
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [_BASE] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      TD(TD_LSFT_CAPS),    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ESC,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,   MO(_MOVE),  KC_ENT,     KC_SPC,   MO(_SPECIAL), KC_LALT
-                                      //`--------------------------'  `--------------------------'
 
-  ),
+    /* BASE layer
+    * ,-----------------------------------.   ,-----------------------------------.
+    * | tab |  q  |  w  |  e  |  r  |  t  |   |  y  |  u  |  i  |  o  |  p  | bck |
+    * |-----+-----+-----+-----+-----+-----|   |-----+-----+-----+-----+-----+-----|
+    * | sft |  a  |  s  |  d  |  f  |  g  |   |  h  |  j  |  k  |  l  |  ;  |  '  |
+    * |-----+-----+-----+-----+-----+-----|   |-----+-----+-----+-----+-----+-----|
+    * | ctl |  z  |  x  |  c  |  v  |  b  |   |  n  |  m  |  ,  |  .  |  /  | esc |
+    * `-----------------+-----+-----+-----|   |-----+-----+-----+-----------------'
+    *                   | gui | fn1 | ent |   | spc | fn2 | alt |
+    *                   `-----+-----+-----'   `-----+-----+-----'
+    */
+    [_BASE] = LAYOUT_split_3x6_3(
+        KC_TAB,           KC_Q, KC_W, KC_E,    KC_R,      KC_T,          KC_Y,   KC_U,         KC_I,    KC_O,   KC_P,    KC_BSPC,
+        TD(TD_LSFT_CAPS), KC_A, KC_S, KC_D,    KC_F,      KC_G,          KC_H,   KC_J,         KC_K,    KC_L,   KC_SCLN, KC_QUOT,
+        KC_LCTL,          KC_Z, KC_X, KC_C,    KC_V,      KC_B,          KC_N,   KC_M,         KC_COMM, KC_DOT, KC_SLSH, KC_ESC,
+                                      KC_LGUI, MO(_MOVE), KC_ENT,        KC_SPC, MO(_SPECIAL), KC_LALT
+    ),
+
+    /* MOVE layer
+    * ,-----------------------------------.   ,-----------------------------------.
+    * | tab |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | del |
+    * |-----+-----+-----+-----+-----+-----|   |-----+-----+-----+-----+-----+-----|
+    * | sft |     |     |  ↑  |     |  W↑ |   |  ←  |  ↓  |  ↑  |  →  |     |     |
+    * |-----+-----+-----+-----+-----+-----|   |-----+-----+-----+-----+-----+-----|
+    * | ctl |     |  ←  |  ↓  |  →  |  W↓ |   | ms1 | ms2 |     |     |     | esc |
+    * `-----------------+-----+-----+-----|   |-----+-----+-----+-----------------'
+    *                   | gui | fn1 | ent |   | spc | fn2 | alt |
+    *                   `-----+-----+-----'   `-----+-----+-----'
+    */
 
     [_MOVE] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      TD(TD_LSFT_CAPS), XXXXXXX, XXXXXXX, KC_MS_UP, XXXXXXX, KC_MS_WH_UP,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, XXXXXXX, KC_MS_LEFT, KC_MS_DOWN, KC_MS_RIGHT, KC_MS_WH_DOWN,                      KC_MS_BTN1, KC_MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI, _______,  KC_ENT,     KC_SPC,   MO(_CONFIG), KC_LALT
-                                      //`--------------------------'  `--------------------------'
-  ),
+        KC_TAB,           KC_1,    KC_2,       KC_3,       KC_4,        KC_5,                   KC_6,       KC_7,        KC_8,    KC_9,     KC_0,    KC_DEL,
+        TD(TD_LSFT_CAPS), XXXXXXX, XXXXXXX,    KC_MS_UP,   XXXXXXX,     KC_MS_WH_UP,            KC_LEFT,    KC_DOWN,     KC_UP,   KC_RIGHT, XXXXXXX, XXXXXXX,
+        KC_LCTL,          XXXXXXX, KC_MS_LEFT, KC_MS_DOWN, KC_MS_RIGHT, KC_MS_WH_DOWN,          KC_MS_BTN1, KC_MS_BTN2,  XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX,
+                                               KC_LGUI,    _______,     KC_ENT,                 KC_SPC,     MO(_CONFIG), KC_LALT
+    ),
+
+    /* SPECIAL layer
+    * ,-----------------------------------.   ,-----------------------------------.
+    * | tab |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | bck |
+    * |-----+-----+-----+-----+-----+-----|   |-----+-----+-----+-----+-----+-----|
+    * | sft |  ~  |  '  |  ^  |     |     |   |  -  |  =  |  [  |  ]  |  \  |  `  |
+    * |-----+-----+-----+-----+-----+-----|   |-----+-----+-----+-----+-----+-----|
+    * | ctl |     |     |  ç  |     |     |   |  _  |  +  |  {  |  }  |  |  |  ~  |
+    * `-----------------+-----+-----+-----|   |-----+-----+-----+-----------------'
+    *                   | gui | fn1 | ent |   | spc | fn2 | alt |
+    *                   `-----+-----+-----'   `-----+-----+-----'
+    */
 
     [_SPECIAL] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      TD(TD_LSFT_CAPS), KC_TILD, KC_QUOT, LSFT(KC_6), XXXXXXX, XXXXXXX,                      KC_MINS,  KC_EQL, KC_LBRC, KC_RBRC, KC_BSLS,  KC_GRV,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, XXXXXXX, XXXXXXX, RALT(KC_COMM), XXXXXXX, XXXXXXX,                      KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, KC_TILD,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,   MO(_CONFIG),  KC_ENT,     KC_SPC, _______, KC_LALT
-                                      //`--------------------------'  `--------------------------'
-  ),
+        KC_TAB,           KC_EXLM, KC_AT,   KC_HASH,       KC_DLR,      KC_PERC,          KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
+        TD(TD_LSFT_CAPS), KC_TILD, KC_QUOT, LSFT(KC_6),    XXXXXXX,     XXXXXXX,          KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS, KC_GRV,
+        KC_LCTL,          XXXXXXX, XXXXXXX, RALT(KC_COMM), XXXXXXX,     XXXXXXX,          KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, KC_TILD,
+                                            KC_LGUI,       MO(_CONFIG), KC_ENT,           KC_SPC,  _______, KC_LALT
+    ),
+
+    /* CONFIG layer
+    * ,------------------------------------------------------.   ,-----------------------------------------.
+    * |  boot  | rgb_pri |           |           |     |     |   |        |       |      |     |     |     |
+    * |--------+---------+-----------+-----------+-----+-----|   |--------+-------+------+-----+-----+-----|
+    * | rgb_tg | rgb_h_+ |  rgb_s_+  |  rgb_b_+  |     |     |   |  vol+  |  nxt  | ply  |     |     |     |
+    * |--------+---------+-----------+-----------+-----+-----|   |--------+-------+------+-----+-----+-----|
+    * | rgb_md | rgb_h_- |  rgb_s_-  |  rgb_b__  |     |     |   |  vol-  |  prv  |      |     |     |     |
+    * `------------------------------+-----------+-----+-----|   |--------+-------+------+-----------------'
+    *                                |    gui    | fn1 | ent |   |  spc   |  fn2  |  alt |
+    *                                `-----------+-----+-----'   `--------+-------+------'
+    */
 
     [_CONFIG] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        QK_BOOT, RGB_M_P, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX, XXXXXXX,                      KC_VOLU, KC_MNXT, KC_MPLY, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX,                      KC_VOLD, KC_MPRV, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI, _______,  KC_ENT,     KC_SPC, _______, KC_LALT
-                                      //`--------------------------'  `--------------------------'
-  )
+        QK_BOOT, RGB_M_P, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX, XXXXXXX,          KC_VOLU, KC_MNXT, KC_MPLY, XXXXXXX, XXXXXXX, XXXXXXX,
+        RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX,          KC_VOLD, KC_MPRV, XXXXXXX, XXXXXXX, XXXXXXX, TG(_UNT),
+                                   KC_LGUI, _______, KC_ENT,           KC_SPC,  _______, KC_LALT
+    ),
+
+
+    /* Unturned layer
+    * ,-----------------------------------.   ,-----------------------------------.
+    * | tab |     |  q  |  w  |  e  |  r  |   |     |     |     |     |     | bck |     
+    * |-----+-----+-----+-----+-----+-----|   |-----+-----+-----+-----+-----+-----|
+    * | sft |     |  a  |  s  |  d  |  f  |   |     |     |     |     |     |     |
+    * |-----+-----+-----+-----+-----+-----|   |-----+-----+-- --+-----+-----+-----|
+    * | ctl |  z  |  x  |  c  |     |  g  |   |     |     |     |     |     | esc |
+    * `-----------------+-----+-----+-----|   |-----+-----+-----+-----------------'
+    *                   | gui | fn1 | ent |   | spc | fn2 | alt |
+    *                   `-----+-----+-----'   `-----+-----+-----'
+    */
+
+    [_UNT] = LAYOUT_split_3x6_3(
+        KC_TAB,  XXXXXXX, KC_Q,    KC_W,    KC_E,      KC_R,             XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        KC_LSFT, XXXXXXX, KC_A,    KC_S,    KC_D,      KC_F,             XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        KC_LCTL, KC_Z,    KC_X,    KC_C,    KC_V,      KC_G,             XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                   KC_LGUI, MO(_MOVE), KC_SPC,           KC_ENT,  MO(_SPECIAL), KC_LALT
+    ),
 };
 
 
@@ -314,6 +362,9 @@ static void print_status_narrow(void) {
         case _CONFIG:
             oled_write_P(PSTR("Conf\n"), false);
             break;
+        case _UNT:
+            oled_write_P(PSTR("untur\n"), false);
+            break;
         default:
             // Or use the write_ln shortcut over adding '\n' to the end of your string
             oled_write_ln_P(PSTR("Undefined"), false);
@@ -361,7 +412,7 @@ bool oled_task_user(void) {
     switch (keycode) {
         /* KEYBOARD PET STATUS START */
  
-        case x:
+        case KC_LCTL:
             isSneaking = record->event.pressed;
             break;
         case KC_SPC:
